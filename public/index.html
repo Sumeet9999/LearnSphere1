@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEARNSPHERE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+
+     
+.event-row {
+    display: flex;
+    overflow-x: auto; 
+    padding: 1rem 0; 
+    gap: 1rem;
+    scrollbar-width: none;
+}
+
+.event-row::-webkit-scrollbar {
+    display: none; 
+}
+
+.event-card {
+    min-width: 300px;
+    max-width: 300px;
+    flex: 1 1 calc(33.33% - 1rem); 
+    transition: transform 0.3s ease; 
+}
+
+.apply-button {
+    background-color: #3b82f6;
+    color: white; 
+    transition: background-color 0.3s ease;
+}
+
+.apply-button:hover {
+    background-color: #2563eb; 
+}
+
+#about {
+    margin-bottom: 2rem; 
+}
+
+nav {
+    padding: 16px 0; 
+}
+
+#about h3 {
+    margin-top: 2rem;
+}
+
+#about ul {
+    margin-left: 1.5rem; 
+}
+
+input, select {
+    background-color: #2D2D2D; 
+    color: #FFFFFF; 
+    border: 1px solid #4A4A4A; 
+    padding: 0.5rem; 
+    border-radius: 0.25rem;
+}
+
+input::placeholder {
+    color: #B0B0B0; 
+}
+
+select {
+    color: #FFFFFF; 
+    background-color: #2D2D2D; 
+}
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-50 backdrop-filter backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="text-white font-bold text-xl">LearnSphere</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#events" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Events</a>
+                        <a href="#about" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About Us</a>
+                        <a href="#testimonials" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Testimonials</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <section id="landing" class="relative h-screen flex items-center justify-center">
+            <canvas id="spaceBackground" class="absolute inset-0"></canvas>
+            <div class="z-10 flex flex-col items-center">
+                <img src="/assests/logo.png" alt="LEARNSPHERE Logo" class="w-48 h-48 mr-4">
+                <h1 class="text-8xl font-bold">LearnSphere</h1>
+                <p class="text-2xl text-gray-300 mt-4">Empowering Your Learning Journey</p>
+            </div>
+        </section>
+
+        <section id="events" class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold mb-8">Events</h2>
+                <div class="flex justify-center mb-8">
+                    <button id="allEventsBtn" class="px-4 py-2 mr-2 rounded bg-blue-600">All Events</button>
+                    <button id="recommendedEventsBtn" class="px-4 py-2 rounded bg-gray-700">Recommended Events</button>
+                </div>
+                <div id="eventsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Event cards will be dynamically inserted here -->
+                </div>
+            </div>
+        </section>
+        <section id="recommended" class="py-16 bg-gray-900 hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold mb-8">Recommended Events</h2>
+                <div class="form-container bg-gray-800 p-6 rounded-lg">
+                    <h1 class="text-xl font-bold mb-4">Event Recommendation System</h1>
+                    <form id="predictionForm">
+                        <div class="form-group mb-4">
+                            <label for="userInterests" class="block text-gray-300">User Interests:</label>
+                            <input type="text" id="userInterests" required placeholder="Enter your interests" class="mt-1 block w-full p-2 border border-gray-600 rounded">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="eventCategory" class="block text-gray-300">Event Category:</label>
+                            <select id="eventCategory" required class="mt-1 block w-full p-2 border border-gray-600 rounded">
+                                <option value="Course">Course</option>
+                                <option value="Workshop">Workshop</option>
+                                <option value="Seminar">Seminar</option>
+                                <option value="Bootcamp">Bootcamp</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="mode" class="block text-gray-300">Mode:</label>
+                            <select id="mode" required class="mt-1 block w-full p-2 border border-gray-600 rounded">
+                                <option value="Online">Online</option>
+                                <option value="Offline">Offline</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="budget" class="block text-gray-300">Budget (₹):</label>
+                            <input type="number" id="budget" required min="0" class="mt-1 block w-full p-2 border border-gray-600 rounded">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="price" class="block text-gray-300"> Price (₹):</label>
+                            <input type="number" id="price" required min="0" class="mt-1 block w-full p-2 border border-gray-600 rounded">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="duration" class="block text-gray-300">Duration (Hours):</label>
+                            <input type="number" id="duration" required min="0" class="mt-1 block w-full p-2 border border-gray-600 rounded">
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" id="trending" class="form-checkbox">
+                                <span class="ml-2 text-gray-300">Trending</span>
+                            </label>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" id="certificateOffered" class="form-checkbox">
+                                <span class="ml-2 text-gray-300">Certificate Offered</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Get Prediction</button>
+                    </form>
+                    <pre id="result" class="mt-4 text-gray-300"></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="allEvents" class="py-16 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-2 ">
+                <h2 class="text-3xl font-bold mb-8">All Events</h2>
+                
+                <!-- Row 1 -->
+                <div class="event-row overflow-x-auto flex space-x-4">
+                    <!-- Cards will be dynamically generated here -->
+                </div>
+                
+                <!-- Row 2 -->
+                <div class="event-row overflow-x-auto flex space-x-4">
+                    <!-- Cards will be dynamically generated here -->
+                </div>
+                
+                <!-- Row 3 -->
+                <div class="event-row overflow-x-auto flex space-x-4">
+                    <!-- Cards will be dynamically generated here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <section id="about" class="py-16 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold mb-8">About Us</h2>
+                <p class="text-lg text-gray-300 mb-4">
+                    At LearnSphere, we are dedicated to providing high-quality educational resources and opportunities for learners of all ages. Our mission is to empower individuals to unlock their potential through accessible and engaging learning experiences.
+                </p>
+               
+                <p class="text-lg text-gray-300 mb-4">
+                    Our platform recommends a wide range of courses and workshops
+                    designed to cater to diverse learning styles and preferences. Whether you are looking to enhance your skills, explore new interests, or advance your career, LearnSphere has something for you.
+                </p>
+                <p class="text-lg text-gray-300 mb-4">
+                    Join us on this exciting journey of discovery and growth. Together, we can shape the future of education and empower the next generation of learners.
+                </p>
+            </div>
+        </section>
+
+        <section id="testimonials" class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold mb-8">Testimonials</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <p class="mb-4">"LEARNSPHERE helped me find the perfect workshops for my career growth!"</p>
+                        <p class="font-bold">- Jane Doe</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <p class="mb-4">"The recommended events were spot on. I've learned so much!"</p>
+                        <p class="font-bold">- John Smith</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg">
+                        <p class="mb-4">"Great platform for discovering relevant learning opportunities."</p>
+                        <p class="font-bold">- Alice Johnson</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
