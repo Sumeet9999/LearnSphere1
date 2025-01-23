@@ -60,7 +60,7 @@ function animate() {
     star.update()
     star.draw()
   })
-
+// File added by Sumit Mishra
   requestAnimationFrame(animate)
 }
 
